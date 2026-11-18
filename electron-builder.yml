@@ -1,0 +1,41 @@
+# Instalador Windows 64 bits (NSIS). Gere com: npm run dist
+appId: br.com.gestaobanca.app
+productName: Gestão de Banca
+executableName: GestaoDeBanca
+copyright: Gestão de Banca
+
+directories:
+  output: release
+  buildResources: build
+
+# O main/preload (esbuild) e o renderer (Vite) já saem empacotados em dist/.
+# O SQLite é o módulo embutido do próprio Electron (node:sqlite): não há dependência nativa para empacotar.
+files:
+  - dist/**/*
+  - build/icon.png
+  - package.json
+
+asar: true
+compression: maximum
+
+win:
+  target:
+    - target: nsis
+      arch: [x64]
+  icon: build/icon.ico
+  artifactName: Gestao-de-Banca-Setup-${version}.${ext}
+
+nsis:
+  oneClick: false
+  perMachine: false
+  allowToChangeInstallationDirectory: true
+  createDesktopShortcut: always
+  createStartMenuShortcut: true
+  shortcutName: Gestão de Banca
+  installerIcon: build/icon.ico
+  uninstallerIcon: build/icon.ico
+  installerHeaderIcon: build/icon.ico
+  runAfterFinish: true
+  # Os dados ficam em %APPDATA%\GestaoBanca e NUNCA são apagados ao desinstalar/atualizar.
+  deleteAppDataOnUninstall: false
+  language: "1046"

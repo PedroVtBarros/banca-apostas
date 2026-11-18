@@ -1,0 +1,6 @@
+node_modules
+dist
+release
+*.log
+.e2e-data
+.dev-data
